@@ -12,6 +12,7 @@ Reference:
 """
 
 import numpy as np
+from datetime import datetime
 from ..utils import metrics
 
 class PCA(object):
@@ -53,6 +54,9 @@ class PCA(object):
         """
 
         print('====== Model summary ======')
+
+        starttime = datetime.now()
+
         num_instances, num_events = X.shape
         X_cov = np.dot(X.T, X) / float(num_instances)
         U, sigma, V = np.linalg.svd(X_cov)
@@ -85,15 +89,23 @@ class PCA(object):
                                                + 1.0 + phi[1] * h0 * (h0 - 1) / (phi[0] * phi[0]), 
                                                1.0 / h0)
         print('SPE threshold: {}\n'.format(self.threshold))
+        
+        print('Fitting done. [Time taken: {!s}]'.format(datetime.now() - starttime))
 
     def predict(self, X):
         assert self.proj_C is not None, 'PCA model needs to be trained before prediction.'
+
+        starttime = datetime.now()
+
         y_pred = np.zeros(X.shape[0])
         for i in range(X.shape[0]):
             y_a = np.dot(self.proj_C, X[i, :])
             SPE = np.dot(y_a, y_a)
             if SPE > self.threshold:
                 y_pred[i] = 1
+
+        print('Predicting done. [Time taken: {!s}]'.format(datetime.now() - starttime))
+
         return y_pred
 
     def evaluate(self, X, y_true):

@@ -13,6 +13,7 @@ Reference:
 
 import numpy as np
 import pprint
+from datetime import datetime
 from scipy.special import expit
 from numpy import linalg as LA
 from scipy.cluster.hierarchy import linkage, fcluster
@@ -44,6 +45,9 @@ class LogClustering(object):
 
     def fit(self, X):   
         print('====== Model summary ======')         
+
+        starttime = datetime.now()
+
         if self.mode == 'offline':
             # The offline mode can process about 10K samples only due to huge memory consumption.
             self._offline_clustering(X)
@@ -56,12 +60,18 @@ class LogClustering(object):
             if X.shape[0] > self.num_bootstrap_samples:
                 self._online_clustering(X)
 
+        print('Fitting done. [Time taken: {!s}]'.format(datetime.now() - starttime))
+
     def predict(self, X):
+        starttime = datetime.now()
+
         y_pred = np.zeros(X.shape[0])
         for i in range(X.shape[0]):
             min_dist, min_index = self._get_min_cluster_dist(X[i, :])
             if min_dist > self.anomaly_threshold:
                 y_pred[i] = 1
+
+        print('Predicting done. [Time taken: {!s}]'.format(datetime.now() - starttime))
         return y_pred
 
     def evaluate(self, X, y_true):

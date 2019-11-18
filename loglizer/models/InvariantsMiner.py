@@ -12,6 +12,7 @@ Reference:
 """
 
 import numpy as np
+from datetime import datetime
 from itertools import combinations
 from ..utils import metrics
 
@@ -43,8 +44,12 @@ class InvariantsMiner(object):
             X: ndarray, the event count matrix of shape num_instances-by-num_events
         """
         print('====== Model summary ======')
+        starttime = datetime.now()
+        
         invar_dim = self._estimate_invarant_space(X)
         self._invariants_search(X, invar_dim)
+
+        print('Fitting done. [Time taken: {!s}]'.format(datetime.now() - starttime))
 
     def predict(self, X):
         """ Predict anomalies with mined invariants
@@ -58,10 +63,14 @@ class InvariantsMiner(object):
             y_pred: ndarray, the predicted label vector of shape (num_instances,)
         """
         
+        starttime = datetime.now()
+
         y_sum = np.zeros(X.shape[0])
         for cols, theta in self.invariants_dict.items():
             y_sum += np.fabs(np.dot(X[:, cols], np.array(theta)))
         y_pred = (y_sum > 1e-6).astype(int)
+
+        print('Predicting done. [Time taken: {!s}]'.format(datetime.now() - starttime))
         return y_pred
 
     def evaluate(self, X, y_true):
