@@ -168,9 +168,9 @@ class InvariantsMiner(object):
 
         num_printed_relationships = 3
 
-        for cols, theta in invariants_dict:
+        for cols, theta in invariants_dict.items():
             line = ""
-            for tmp, coeff in zip(list(cols), theta):
+            for tmp, coeff in zip(cols, theta):
                 line += "{} * n(T{}) ".format(coeff, tmp)
             line += "= 0"
             print(line)
