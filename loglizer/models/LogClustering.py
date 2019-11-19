@@ -88,7 +88,7 @@ class LogClustering(object):
         Z = linkage(p_dist, 'complete')
         cluster_index = fcluster(Z, self.max_dist, criterion='distance')
         self._extract_representatives(X, cluster_index)
-        print('Processed {} instances.'.format(X.shape[0]))
+        # print('Processed {} instances.'.format(X.shape[0]))
         print('Found {} clusters offline.\n'.format(len(self.representatives)))
         # print('The representive vectors are:')
         # pprint.pprint(self.representatives.tolist())
@@ -104,8 +104,8 @@ class LogClustering(object):
     def _online_clustering(self, X):
         print("Starting online clustering...")
         for i in range(self.num_bootstrap_samples, X.shape[0]):
-            if (i + 1) % 2000 == 0:
-                print('Processed {} instances.'.format(i + 1))
+            # if (i + 1) % 2000 == 0:
+            #     print('Processed {} instances.'.format(i + 1))
             instance_vec = X[i, :]
             if len(self.representatives) > 0:
                 min_dist, clu_id = self._get_min_cluster_dist(instance_vec)

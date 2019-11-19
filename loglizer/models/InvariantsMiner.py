@@ -165,6 +165,20 @@ class InvariantsMiner(object):
                 break
             length += 1
         print('Mined {} invariants: {}\n'.format(len(invariants_dict), invariants_dict))
+
+        num_printed_relationships = 3
+
+        for col, theta in invariants_dict:
+            line = ""
+            for tmp, coeff in zip(col, theta):
+                line += "{} * n(T{}) ".format(coeff, tmp)
+            line += "= 0"
+            print(line)
+            
+            num_printed_relationships -= 1
+
+            if num_printed_relationships == 0:
+                break
         self.invariants_dict = invariants_dict
 
     def _compute_eigenvector(self, X):
