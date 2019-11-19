@@ -164,20 +164,20 @@ class InvariantsMiner(object):
             if FLAG_break_loop:
                 break
             length += 1
-        print('Mined {} invariants: {}\n'.format(len(invariants_dict), invariants_dict))
+        # print('Mined {} invariants: {}\n'.format(len(invariants_dict), invariants_dict))
+
+        print("Mined {} invariants\n".format(len(invariants_dict)))
 
         num_printed_relationships = 3
 
         for cols, theta in invariants_dict.items():
-            line = ""
-            for tmp, coeff in zip(cols, theta):
-                line += "{} * n(T{}) ".format(coeff, tmp)
-            line += "= 0"
-            print(line)
+            
+            print(*["({}) * n({})".format(coeff, tmp) for tmp, coeff in zip(cols, theta)], sep = " + ", end = "= 0\n")
             
             num_printed_relationships -= 1
 
             if num_printed_relationships == 0:
+                print("...")
                 break
         self.invariants_dict = invariants_dict
 
