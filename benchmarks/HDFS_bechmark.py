@@ -9,7 +9,7 @@ from loglizer import dataloader, preprocessing
 
 run_models = ['PCA', 'InvariantsMiner', 'LogClustering'] #, 'IsolationForest', 'LR', 
 #              'SVM', 'DecisionTree']
-struct_log = '../data/HDFS/HDFS_100k.log_structured.csv' # The benchmark dataset
+struct_log = '../data/HDFS/HDFS.log_structured.csv' # The benchmark dataset
 label_file = '../data/HDFS/anomaly_label.csv' # The anomaly label file
 
 if __name__ == '__main__':
