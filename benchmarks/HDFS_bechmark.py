@@ -65,13 +65,13 @@ if __name__ == '__main__':
             model = DecisionTree()
             model.fit(x_train, y_train)
         
-        x_test = feature_extractor.transform(x_te)
+        # x_test = feature_extractor.transform(x_te)
         print('Train accuracy:')
         precision, recall, f1 = model.evaluate(x_train, y_train)
         benchmark_results.append([_model + '-train', precision, recall, f1])
-        print('Test accuracy:')
-        precision, recall, f1 = model.evaluate(x_test, y_test)
-        benchmark_results.append([_model + '-test', precision, recall, f1])
+        # print('Test accuracy:')
+        # precision, recall, f1 = model.evaluate(x_test, y_test)
+        # benchmark_results.append([_model + '-test', precision, recall, f1])
 
     pd.DataFrame(benchmark_results, columns=['Model', 'Precision', 'Recall', 'F1']) \
       .to_csv('benchmark_result.csv', index=False)
